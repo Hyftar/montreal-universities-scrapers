@@ -7,7 +7,7 @@ course webpage, and level of the course.
 ## Usage
 
 To use the scripts, just pull the data from the website (as HTML) using `ruby crawler.rb`
-in the respective folder. Then, use execute the *parser* using `ruby parser.rb` to extract
+in the respective folder. Then, execute the *parser* using `ruby parser.rb` to extract
 the information from `data.html` and to generate a *JSON* file.
 
 ## Disclaimer
