@@ -2,7 +2,7 @@ require 'net/https'
 require 'thread'
 require 'nokogiri'
 
-# Gets all the courses from the UdeM website and outputs them in HTML format
+# Gets all the courses from the ÉTS website and outputs them in HTML format
 
 def get_next_uri
   uri = URI("https://www.etsmtl.ca/Etudiants-actuels/Baccalaureat/Cours-horaires-1er-cycle/Cours-par-titre?lettre=#{@l}")
