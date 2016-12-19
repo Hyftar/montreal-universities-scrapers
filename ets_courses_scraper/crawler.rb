@@ -6,7 +6,7 @@ require 'nokogiri'
 
 def get_next_uri
   uri = URI("https://www.etsmtl.ca/Etudiants-actuels/Baccalaureat/Cours-horaires-1er-cycle/Cours-par-titre?lettre=#{@l}")
-  @l = (@l.ord + 1).chr
+  @l = @l.next
   return uri
 end
 
@@ -22,7 +22,7 @@ threads = []
 
 @num_of_threads.times {
   threads << Thread.new {
-    until @l.ord > 'z'.ord do
+    until @l > 'z' do
       uri = get_next_uri
       @is_writing.lock
       File.open('data.html', 'a') { |io|
