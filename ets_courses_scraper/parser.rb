@@ -51,6 +51,8 @@ courses_objects =
       )
     }
 
+courses_objects.uniq! { |c| c.number }
+
 puts "Number of courses found: #{courses_objects.size}"
 
 Parallel.each(courses_objects, progress: "Getting courses credits", in_threads: 20) { |course|
