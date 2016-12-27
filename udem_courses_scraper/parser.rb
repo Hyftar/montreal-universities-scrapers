@@ -27,19 +27,15 @@ class Course
 end
 
 courses = Nokogiri::HTML(File.open('data.html', 'r').read)
-  .css('tr')
-  .map { |x|
-    if (x.css('td').css('span')[-1])
-      Course.new(
-        x.css('p[class="programmeEtudeTitle"]').css('a').text,
-        x.css('td[class="cours-numero"]').css('span').text,
-        x.css('p[class="programmeEtudeTitle"]').css('a')[0]['href'],
-        x.css('td').css('span')[-1].text.match(/(\d+\.\d+)/).captures.first.to_f,
-      )
-    else
-      Course.new('none', 'none', 'none', 'none')
-    end
-  }
+  .css('tr')[1..-1]
+  .map do |x|
+    Course.new(
+      x.css('p[class="programmeEtudeTitle"]').css('a').text,
+      x.css('td[class="cours-numero"]').css('span').text,
+      x.css('p[class="programmeEtudeTitle"]').css('a')[0]['href'],
+      x.css('td').css('span')[-1].text.match(/(\d+\.\d+)/).captures.first.to_f,
+    )
+  end
   .map(&:to_hash)
 
 open('courses_fr.json', 'w') do |io|
