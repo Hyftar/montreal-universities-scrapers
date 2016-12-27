@@ -33,7 +33,7 @@ courses = Nokogiri::HTML(File.open('data.html', 'r').read)
       x.css('p[class="programmeEtudeTitle"]').css('a').text,
       x.css('td[class="cours-numero"]').css('span').text,
       x.css('p[class="programmeEtudeTitle"]').css('a')[0]['href'],
-      x.css('td').css('span')[-1].text.match(/(\d+\.\d+)/).captures.first.to_f,
+      x.css('td').css('span')[-1].text.match(/(\d+\.\d+)/)[1].to_f,
     )
   end
   .map(&:to_hash)

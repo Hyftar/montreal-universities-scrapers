@@ -8,6 +8,9 @@ class ProgrammeEtude
   attr_reader :title, :credits, :level, :number, :school, :url
 
   def initialize(title, credits, level, number, url)
+    if credits.is_a?(MatchData)
+      credits = credits[1].to_f
+    end
     @title = title
     @credits = credits
     @level = level
@@ -38,8 +41,8 @@ programs = page
   .map do |x|
     title = x.css('p[class="programmeEtudeTitle"]').text.strip
     attributes = x.css('span').text
-    credits = attributes[/\d+[[:space:]]+crédits/] || title[/\d+[[:space:]]+crédits/] || 'none'
-    number = attributes[/\d{1,2}-\d+-\d+-\d+/] || 'none'
+    credits = attributes.match(/(\d+)[[:space:]]+crédits/) || title.match(/(\d+)[[:space:]]+crédits/) || 'none'
+    number = attributes.match(/(\d{1,2}-\d+-\d+-\d+)/) || 'none'
     ProgrammeEtude.new(
       title,
       credits,
