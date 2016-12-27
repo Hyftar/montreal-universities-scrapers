@@ -51,5 +51,5 @@ programs = page
   .map{|x| x.to_hash}
 
 open('programs.json', 'w') { |io|
-  io.puts JSON.pretty_generate(programs)
+  io.puts JSON.generate(programs)
 }

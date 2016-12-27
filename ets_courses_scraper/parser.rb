@@ -67,7 +67,7 @@ Parallel.each(courses_objects, progress: "Getting courses credits", in_threads: 
 }
 
 open('courses_fr.json', 'w') { |io|
-  io.puts JSON.pretty_generate(
+  io.puts JSON.generate(
     courses_objects
       .map(&:to_hash)
   )

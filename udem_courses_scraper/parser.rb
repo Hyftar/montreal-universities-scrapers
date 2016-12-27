@@ -42,6 +42,6 @@ courses = Nokogiri::HTML(File.open('data.html', 'r').read)
   }
   .map(&:to_hash)
 
-open('courses_fr.json', 'w') { |io|
-  io.puts JSON.pretty_generate(courses)
-}
+open('courses_fr.json', 'w') do |io|
+  io.puts JSON.generate(courses)
+end
