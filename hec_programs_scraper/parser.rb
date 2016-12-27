@@ -49,7 +49,7 @@ class Program
     }
   end
 end
-courses = Nokogiri::HTML(File.open('data.html', 'r').read)
+programs = Nokogiri::HTML(File.open('data.html', 'r').read)
   .css('a')
   .map do |x|
     Program.new(
@@ -62,5 +62,5 @@ courses = Nokogiri::HTML(File.open('data.html', 'r').read)
   .map(&:to_hash)
 
 open('programs.json', 'w') do |io|
-  io.puts JSON::generate(courses)
+  io.puts JSON::generate(programs)
 end
