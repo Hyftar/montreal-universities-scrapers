@@ -27,13 +27,13 @@ end
 
 threads = []
 
-@num_of_threads.times {
-  threads << Thread.new {
-    loop {
+@num_of_threads.times do
+  threads << Thread.new do
+    loop do
       break if get_courses(get_next_uri).size < 100
       print '.'
-    }
-  }
-}
+    end
+  end
+end
 
 threads.each { |thr| thr.join }

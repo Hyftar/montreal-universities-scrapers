@@ -55,7 +55,7 @@ courses_objects.uniq! { |c| c.number }
 
 puts "Number of courses found: #{courses_objects.size}"
 
-Parallel.each(courses_objects, progress: "Getting courses credits", in_threads: 20) { |course|
+Parallel.each(courses_objects, progress: "Getting courses credits", in_threads: 20) do |course|
   page = Net::HTTP.get(URI(course.url))
   credits_span =
     Nokogiri::HTML(page)
@@ -64,11 +64,11 @@ Parallel.each(courses_objects, progress: "Getting courses credits", in_threads: 
       .match(/(\d+(?:[.,]\d+)?)/)
 
   course.credits = credits_span ? credits_span.captures.first.to_f : 0
-}
+end
 
-open('courses_fr.json', 'w') { |io|
+open('courses_fr.json', 'w') do |io|
   io.puts JSON.generate(
     courses_objects
       .map(&:to_hash)
   )
-}
+end

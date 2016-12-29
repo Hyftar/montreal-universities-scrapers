@@ -53,6 +53,6 @@ programs = page
   end
   .map{|x| x.to_hash}
 
-open('programs.json', 'w') { |io|
+open('programs.json', 'w') do |io|
   io.puts JSON.generate(programs)
-}
+end
