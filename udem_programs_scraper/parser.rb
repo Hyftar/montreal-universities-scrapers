@@ -51,6 +51,7 @@ programs = page
       x.css('p[class="programmeEtudeTitle"] > a')[0]['href'] # url
     )
   end
+  .uniq { |x| x.number }
   .map{|x| x.to_hash}
 
 open('programs.json', 'w') do |io|
