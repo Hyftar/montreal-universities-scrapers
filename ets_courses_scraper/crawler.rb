@@ -1,13 +1,12 @@
-require 'net/https'
+require 'http'
 require 'thread'
 require 'nokogiri'
 require 'parallel'
-
 # Gets all the courses from the ÉTS website and outputs them in HTML format
 
 
 def get_courses(uri)
-  Nokogiri::HTML(Net::HTTP.get(uri))
+  Nokogiri::HTML(HTTP.get(uri).to_s)
     .css('#plc_lt_zoneMain_pageplaceholder_pageplaceholder_lt_zoneContent_pageplaceholder_pageplaceholder_lt_zoneCenter_pageplaceholder_pageplaceholder_lt_zoneCenter_ListeCoursParTitre_GridViewResultats')
 end
 
@@ -23,6 +22,7 @@ end
 is_writing = Mutex.new
 
 Parallel.each(uris, progress: "Getting courses HTML pages", in_threads: 30) do |uri|
+# uris.each do |uri|
   content = get_courses(uri)
   is_writing.lock
   File.open('data.html', 'a') do |io|

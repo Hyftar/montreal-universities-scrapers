@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'json'
 require 'parallel'
-require 'net/https'
+require 'http'
 
 
 # Parses the data from data.html into JSON format
@@ -56,7 +56,7 @@ courses_objects.uniq! { |c| c.number }
 puts "Number of courses found: #{courses_objects.size}"
 
 Parallel.each(courses_objects, progress: "Getting courses credits", in_threads: 20) do |course|
-  page = Net::HTTP.get(URI(course.url))
+  page = HTTP.get(URI(course.url)).to_s
   credits_span =
     Nokogiri::HTML(page)
       .css('span#plc_lt_zoneMain_pageplaceholder_pageplaceholder_lt_zoneRight_FicheCoursInfosDroite_LabelCredits')

@@ -1,5 +1,5 @@
 require 'nokogiri'
-require 'net/http'
+require 'http'
 
 # Gets all the programs from the HEC website and outsputs them in HTML format
 
@@ -7,7 +7,7 @@ require 'net/http'
 # they have a paging system. This is good for us; less work.
 
 open('data.html', 'w') do |io|
-  io.puts Nokogiri::HTML(Net::HTTP.get(URI("http://www.hec.ca/programmes/index.html")))
+  io.puts Nokogiri::HTML(HTTP.get(URI("http://www.hec.ca/programmes/index.html")).to_s)
     .css('.PF_ProgItem')
     .map(&:parent)
 end

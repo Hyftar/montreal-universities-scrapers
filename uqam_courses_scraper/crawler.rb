@@ -1,4 +1,4 @@
-require 'net/http'
+require 'http'
 require 'json'
 require 'parallel'
 require 'nokogiri'
@@ -30,7 +30,7 @@ end
 
 # Getting the urls of every field of study
 fields_list_urls =
-  Nokogiri::HTML(Net::HTTP.get(URI('https://etudier.uqam.ca/cours-par-discipline')))
+  Nokogiri::HTML(HTTP.get(URI('https://etudier.uqam.ca/cours-par-discipline')).to_s)
     .css('table')
     .css('a')
     .map { |e| "https://etudier.uqam.ca/#{e['href']}" }
@@ -41,7 +41,7 @@ courses_urls = []
 Parallel.each(fields_list_urls, in_threads: 30, progress: 'Getting courses urls and titles') do |url|
 # fields_list_urls.each do |url| # Syncronous version (VERY slow)
   courses_list_page =
-    Nokogiri::HTML(Net::HTTP.get(URI(url)))
+    Nokogiri::HTML(HTTP.get(URI(url)).to_s)
 
   next if courses_list_page.css('#tableCours').empty?
   courses_urls <<
@@ -65,8 +65,8 @@ courses_urls.flatten!.uniq!
 
 courses = Parallel.map(courses_urls, in_threads: 30, progress: 'Getting courses credits') do |entry|
 # courses_urls.map! do |entry|
-  if Nokogiri::HTML(Net::HTTP.get(URI(entry[:url]))).css('.encadre > div:nth-child(1) > ul:nth-child(1) > li').text.match(/dits : (\d+\.?\d*)/)
-    credits = $~[1].to_f
+  if Nokogiri::HTML(HTTP.get(URI(entry[:url])).to_s).css('.encadre > div:nth-child(1) > ul:nth-child(1) > li').text.match(/dits : (\d+\.?\d*)/)
+    credits = $LAST_MATCH_INFO[1].to_f
   else
     credits = 0.0
   end

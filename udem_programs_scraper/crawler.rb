@@ -1,4 +1,4 @@
-require 'net/https'
+require 'https'
 require 'thread'
 
 
@@ -21,7 +21,7 @@ def get_next_uri
 end
 
 def get_courses(uri)
-  content = Net::HTTP.get(uri)
+  content = HTTP.get(uri).to_s
   @is_writing.lock
   File.open('data.html', 'a') { |f| f.puts content }
   @is_writing.unlock

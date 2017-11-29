@@ -1,4 +1,4 @@
-require 'net/http'
+require 'http'
 require 'nokogiri'
 require 'json'
 require 'parallel'
@@ -34,7 +34,7 @@ end
 
 courses = Parallel.map(0..506, in_threads: 30, progress: 'Getting courses info') do |index|
 # courses = (0..506).map do |index|
-  Nokogiri::HTML(Net::HTTP.get(get_uri(index)))
+  Nokogiri::HTML(HTTP.get(get_uri(index)).to_s)
     .css('div.views-field > h4 > a')
     .map do |row|
       binding.irb if (!row.text.match?(/\w+ \w+ (.+) \(\d+\.?\d* c/) || !row.text.match?(/(\w+ \w+)/) || row.text.match?(/\(\d+\.?\d*\)/))

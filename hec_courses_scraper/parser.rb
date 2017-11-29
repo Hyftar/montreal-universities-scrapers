@@ -1,6 +1,6 @@
 require 'nokogiri'
 require 'json'
-require 'net/http'
+require 'http'
 
 
 requests_urls = [
@@ -42,7 +42,7 @@ end
 File.open('courses.json', 'w') do |io|
   io.puts JSON.generate(
     requests_urls
-      .map { |url| Net::HTTP.get(URI(url)) }
+      .map { |url| HTTP.get(URI(url)).to_s }
       .map { |data| JSON.parse(data) }
       .map { |x| x['catalogDescription_collection'] }
       .flatten
